@@ -1,0 +1,3 @@
+/home/jasonyuan/Gprojects/twinkie_console_latest3/build/CMakeFiles/twinkie_console.dir
+/home/jasonyuan/Gprojects/twinkie_console_latest3/build/CMakeFiles/edit_cache.dir
+/home/jasonyuan/Gprojects/twinkie_console_latest3/build/CMakeFiles/rebuild_cache.dir

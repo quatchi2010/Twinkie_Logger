@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="5213", SYMLINK+="twinkiev2-%m", MODE="0666"
