@@ -30,6 +30,47 @@ class BitsModeEnum(enum.IntEnum):
   SHARED_TEST_MODE_EXIT = 10
 
 
+class VdmCommandTypeEnum(enum.IntEnum):
+  """The Enum for VDM Command Type.
+
+  Revision 3.1 Version 1.8 Table 6-29 Structured VDM Header
+  """
+
+  REQ = 0
+  ACK = 1
+  NAK = 2
+  BUSY = 3
+
+
+class VdmCommandEnum(enum.IntEnum):
+  """The Enum for VDM Command.
+
+  Revision 3.1 Version 1.8 Table 6-29 Structured VDM Header
+  """
+
+  DISCOVER_IDENTITY = 1
+  DISCOVER_SVIDS = 2
+  DISCOVER_MODES = 3
+  ENTER_MODE = 4
+  EXIT_MODE = 5
+  SVID_16 = 16
+  SVID_17 = 17
+  SVID_18 = 18
+  SVID_19 = 19
+  SVID_20 = 20
+  SVID_21 = 21
+  SVID_22 = 22
+  SVID_23 = 23
+  SVID_24 = 24
+  SVID_25 = 25
+  SVID_26 = 26
+  SVID_27 = 27
+  SVID_28 = 28
+  SVID_29 = 29
+  SVID_30 = 30
+  SVID_31 = 31
+
+
 class BattCharStatEnum(enum.IntEnum):
   """The Enum for Battery Status.
 
@@ -76,6 +117,8 @@ class UsbCableCurrentEnum(enum.IntEnum):
 
 Pdo = ct.Enum(ct.BitsInteger(2), PdoEnum)
 BitsMode = ct.Enum(ct.BitsInteger(4), BitsModeEnum)
+VdmCommandType = ct.Enum(ct.BitsInteger(2), VdmCommandTypeEnum)
+VdmCommand = ct.Enum(ct.BitsInteger(5), VdmCommandEnum)
 BattCharStat = ct.Enum(ct.BitsInteger(2), BattCharStatEnum)
 Usb = ct.Enum(ct.BitsInteger(3), UsbEnum)
 UsbCable = ct.Enum(ct.BitsInteger(2), UsbCableEnum)
@@ -161,6 +204,27 @@ pdo = util.ByteSwappedBitStruct(
 
 # Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
 bits = util.ByteSwappedBitStruct("mode" / BitsMode, ct.Padding(28), __size=4)
+
+# Revision 3.1 Version 1.8 Table 6-28 Unstructured VDM Header
+# Revision 3.1 Version 1.8 Table 6-29 Structured VDM Header
+vdm = util.ByteSwappedBitStruct(
+    "vid" / ct.BitsInteger(16),
+    "vdm_typ" / ct.BitsInteger(1),
+    "body"
+    / ct.IfThenElse(
+        ct.this.vdm_typ,
+        ct.Struct(
+            "major_version" / ct.BitsInteger(2),
+            "minor_version" / ct.BitsInteger(2),
+            "obj_position" / ct.BitsInteger(3),
+            "command_typ" / VdmCommandType,
+            ct.Padding(1),
+            "command" / VdmCommand,
+        ),
+        ct.BitsInteger(15),
+    ),
+    __size=4,
+)
 
 # Revision 3.1 Version 1.8 Table 6-46 Battery Status Data Object (BSDO)
 bsdo = util.ByteSwappedBitStruct(
