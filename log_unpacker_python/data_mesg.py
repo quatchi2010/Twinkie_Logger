@@ -41,9 +41,45 @@ class BattCharStatEnum(enum.IntEnum):
   IDLE = 3
 
 
+class UsbEnum(enum.IntEnum):
+  """The Enum for USB Mode.
+
+  Revision 3.1 Version 1.8 Table 6-49 Enter_USB Data Object
+  """
+
+  USB_2_0 = 0
+  USB_3_2 = 1
+  USB_4_0 = 3
+
+
+class UsbCableEnum(enum.IntEnum):
+  """The Enum for USB Cable Types.
+
+  Revision 3.1 Version 1.8 Table 6-49 Enter_USB Data Object
+  """
+
+  ACTIVE_RE_TIMER = 1
+  ACTIVE_RE_DRIVER = 2
+  OPTICALLY_ISOLATED = 3
+
+
+class UsbCableCurrentEnum(enum.IntEnum):
+  """The Enum for USB Cable Current Types.
+
+  Revision 3.1 Version 1.8 Table 6-49 Enter_USB Data Object
+  """
+
+  VBUS_NOT_SUPPORT = 0
+  MAX_3A = 2
+  MAX_5A = 3
+
+
 Pdo = ct.Enum(ct.BitsInteger(2), PdoEnum)
 BitsMode = ct.Enum(ct.BitsInteger(4), BitsModeEnum)
 BattCharStat = ct.Enum(ct.BitsInteger(2), BattCharStatEnum)
+Usb = ct.Enum(ct.BitsInteger(3), UsbEnum)
+UsbCable = ct.Enum(ct.BitsInteger(2), UsbCableEnum)
+UsbCableCurrent = ct.Enum(ct.BitsInteger(2), UsbCableCurrentEnum)
 
 # Revision 3.1 Version 1.8 Table 6-9 Fixed Supply PDO - Source
 fix_supply_pdo_src = ct.Struct(
@@ -161,5 +197,24 @@ ccdo = util.ByteSwappedBitStruct(
     "first" / ct.BitsInteger(8),
     "second" / ct.BitsInteger(8),
     ct.Padding(16),
+    __size=4,
+)
+
+# Revision 3.1 Version 1.8 Table 6-49 Enter_USB Data Object
+eudo = util.ByteSwappedBitStruct(
+    ct.Padding(1),
+    "usb_communications_capable" / Usb,
+    ct.Padding(1),
+    "u4drd" / ct.BitsInteger(1),
+    "u3drd" / ct.BitsInteger(1),
+    ct.Padding(1),
+    "speed" / ct.BitsInteger(3),
+    "cable_typ" / UsbCable,
+    "cable_current" / UsbCableCurrent,
+    "pcie" / ct.BitsInteger(1),
+    "dp" / ct.BitsInteger(1),
+    "tbt" / ct.BitsInteger(1),
+    "hoy" / ct.BitsInteger(1),
+    ct.Padding(12),
     __size=4,
 )
