@@ -138,3 +138,20 @@ bsdo = util.ByteSwappedBitStruct(
     ),
     __size=8,
 )
+
+# Revision 3.1 Version 1.8 Table 6-47 Alert Data Object
+ado = util.ByteSwappedBitStruct(
+    "ext" / ct.BitsInteger(1),
+    "ovp_event" / ct.BitsInteger(1),
+    "source_input_change" / ct.BitsInteger(1),
+    "operating_condition_change" / ct.BitsInteger(1),
+    "otp_event" / ct.BitsInteger(1),
+    "ocp_event" / ct.BitsInteger(1),
+    "battery_status_change_event" / ct.BitsInteger(1),
+    ct.Padding(1),
+    "fixed_batteries" / ct.BitsInteger(4),
+    "hot_swappable_batteries" / ct.BitsInteger(4),
+    ct.Padding(12),
+    "ext_event" / ct.BitsInteger(4),
+    __size=4,
+)

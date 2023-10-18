@@ -185,7 +185,7 @@ pd_body = ct.Array(
             DataMesgEnum.BIST.name: data_mesg.bits,
             # DataMesgEnum.SNK_CAP.name: data_mesg.pdo_sink,
             DataMesgEnum.BATTERY_STATUS.name: data_mesg.bsdo,
-            # DataMesgEnum.ALERT.name: data_mesg.ado,
+            DataMesgEnum.ALERT.name: data_mesg.ado,
             # DataMesgEnum.GET_COUNTRY_INFO.name: data_mesg.ccdo,
             # DataMesgEnum.ENTER_USB.name: data_mesg.eudo,
             # DataMesgEnum.VDM.name: data_mesg.vdm,
