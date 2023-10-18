@@ -4,6 +4,7 @@ import enum
 import pathlib
 
 import construct as ct
+import data_mesg
 import util
 
 
@@ -179,7 +180,7 @@ pd_body = ct.Array(
     ct.Switch(
         ct.this.header.msg_typ,
         {
-            # DataMesgEnum.SRC_CAP.name: data_mesg.pdo,
+            DataMesgEnum.SRC_CAP.name: data_mesg.pdo,
             # DataMesgEnum.REQUEST.name: data_mesg.rdo,
             # DataMesgEnum.BIST.name: data_mesg.bits,
             # DataMesgEnum.SNK_CAP.name: data_mesg.pdo_sink,
