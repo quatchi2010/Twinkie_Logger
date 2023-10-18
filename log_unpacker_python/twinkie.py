@@ -181,10 +181,10 @@ pd_body = ct.Array(
         ct.this.header.msg_typ,
         {
             DataMesgEnum.SRC_CAP.name: data_mesg.pdo,
+            DataMesgEnum.SNK_CAP.name: data_mesg.pdo_sink,
             # DataMesgEnum.REQUEST.name: data_mesg.rdo,
             DataMesgEnum.BIST.name: data_mesg.bits,
             DataMesgEnum.VDM.name: data_mesg.vdm,
-            # DataMesgEnum.SNK_CAP.name: data_mesg.pdo_sink,
             DataMesgEnum.BATTERY_STATUS.name: data_mesg.bsdo,
             DataMesgEnum.ALERT.name: data_mesg.ado,
             DataMesgEnum.GET_COUNTRY_INFO.name: data_mesg.ccdo,
