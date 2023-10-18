@@ -18,7 +18,20 @@ class PdoEnum(enum.IntEnum):
   APDO = 3
 
 
+class BitsModeEnum(enum.IntEnum):
+  """The Enum for BIST Mode.
+
+  Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
+  """
+
+  CARRIER_MODE = 5
+  TEST_DATA = 8
+  SHARED_TEST_MODE_ENTRY = 9
+  SHARED_TEST_MODE_EXIT = 10
+
+
 Pdo = ct.Enum(ct.BitsInteger(2), PdoEnum)
+BitsMode = ct.Enum(ct.BitsInteger(4), BitsModeEnum)
 
 
 # Revision 3.1 Version 1.8 Table 6-9 Fixed Supply PDO - Source
@@ -99,3 +112,7 @@ pdo = util.ByteSwappedBitStruct(
     ),
     __size=4,
 )
+
+
+# Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
+bits = util.ByteSwappedBitStruct("mode" / BitsMode, ct.Padding(28), __size=4)
