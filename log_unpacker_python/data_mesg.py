@@ -30,9 +30,20 @@ class BitsModeEnum(enum.IntEnum):
   SHARED_TEST_MODE_EXIT = 10
 
 
+class BattCharStatEnum(enum.IntEnum):
+  """The Enum for Battery Status.
+
+  Revision 3.1 Version 1.8 Table 6-46 Battery Status Data Object (BSDO)
+  """
+
+  CHARGING = 1
+  DISCHARGING = 2
+  IDLE = 3
+
+
 Pdo = ct.Enum(ct.BitsInteger(2), PdoEnum)
 BitsMode = ct.Enum(ct.BitsInteger(4), BitsModeEnum)
-
+BattCharStat = ct.Enum(ct.BitsInteger(2), BattCharStatEnum)
 
 # Revision 3.1 Version 1.8 Table 6-9 Fixed Supply PDO - Source
 fix_supply_pdo_src = ct.Struct(
@@ -96,7 +107,6 @@ apdo_src = ct.Struct(
     ),
 )
 
-
 # Revision 3.1 Version 1.8 Table 6-7 Power Data Object
 pdo = util.ByteSwappedBitStruct(
     "pdo_typ" / Pdo,
@@ -113,6 +123,18 @@ pdo = util.ByteSwappedBitStruct(
     __size=4,
 )
 
-
 # Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
 bits = util.ByteSwappedBitStruct("mode" / BitsMode, ct.Padding(28), __size=4)
+
+# Revision 3.1 Version 1.8 Table 6-46 Battery Status Data Object (BSDO)
+bsdo = util.ByteSwappedBitStruct(
+    "battery_present_capacity" / ct.BitsInteger(16),
+    "battery_info"
+    / ct.Struct(
+        ct.Padding(4),
+        "battery_charging_status" / BattCharStat,
+        "battery_is_present" / ct.BitsInteger(1),
+        "invalid_battery_reference" / ct.BitsInteger(1),
+    ),
+    __size=8,
+)
