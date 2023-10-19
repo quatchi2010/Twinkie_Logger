@@ -211,7 +211,7 @@ fix_supply_pdo_sink = ct.Struct(
     "usb_communications_capable" / ct.BitsInteger(1),
     "dual_role_data" / ct.BitsInteger(1),
     "fast_role_swap" / ct.BitsInteger(2),
-    ct.Padding(2),
+    ct.Padding(3),
     "voltage_50ma" / ct.BitsInteger(10),
     "current_10ma" / ct.BitsInteger(10),
 )
