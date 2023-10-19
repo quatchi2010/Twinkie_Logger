@@ -165,9 +165,10 @@ pd_header = util.ByteSwappedBitStruct(
         ct.BitsInteger(1),
     ),
     "spec" / ReVer,
-    ct.IfThenElse(
+    "data_role"
+    / ct.IfThenElse(
         ct.this._._.packet_bin.SOP == SoPEnum.SOP.name,
-        "data_role" / Drole,
+        Drole,
         ct.Padding(1),
     ),
     "msg_typ"
@@ -176,6 +177,16 @@ pd_header = util.ByteSwappedBitStruct(
         ct.IfThenElse(ct.this.extended, ExtMesg, DataMesg),
         CtrlMesg,
     ),
+    __size=2,
+)
+
+# Revision 3.1 Version 1.8 Table 6-3 Extended Message Header
+pd_ext_header = util.ByteSwappedBitStruct(
+    "chunked" / ct.BitsInteger(1),
+    "chunk_number" / ct.BitsInteger(4),
+    "request_chunk" / ct.BitsInteger(1),
+    ct.Padding(1),
+    "data_size" / ct.BitsInteger(9),
     __size=2,
 )
 
@@ -196,7 +207,12 @@ pd_body = ct.Array(
         },
     ),
 )
-pd = ct.Struct("header" / pd_header, "body" / pd_body)
+
+pd = ct.Struct(
+    "header" / pd_header,
+    "ext_header" / ct.If(ct.this.header.extended, pd_ext_header),
+    "body" / pd_body,
+)
 
 ## Twinkie
 
