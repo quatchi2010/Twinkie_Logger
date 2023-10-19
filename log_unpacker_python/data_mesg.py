@@ -202,6 +202,79 @@ pdo = util.ByteSwappedBitStruct(
     __size=4,
 )
 
+# Revision 3.1 Version 1.8 Table 6-16 Fixed Supply PDO - Sink
+fix_supply_pdo_sink = ct.Struct(
+    "dual_role_power" / ct.BitsInteger(1),
+    "higher_capability" / ct.BitsInteger(1),
+    "unconstrained_power" / ct.BitsInteger(1),
+    "usb_communications_capable" / ct.BitsInteger(1),
+    "dual_role_data" / ct.BitsInteger(1),
+    "fast_role_swap" / ct.BitsInteger(2),
+    ct.Padding(2),
+    "voltage_50ma" / ct.BitsInteger(10),
+    "current_10ma" / ct.BitsInteger(10),
+)
+
+# Revision 3.1 Version 1.8 Table 6-17 Variable Supply (non-Battery) PDO - Sink
+variable_supply_pdo_sink = ct.Struct(
+    "max_voltage_50mv" / ct.BitsInteger(10),
+    "min_voltage_50mv" / ct.BitsInteger(10),
+    "current_10ma" / ct.BitsInteger(10),
+)
+
+# Revision 3.1 Version 1.8 Table 6-18 Battery Supply PDO - Sink
+battery_supply_pdo_sink = ct.Struct(
+    "max_voltage_50mv" / ct.BitsInteger(10),
+    "min_voltage_50mv" / ct.BitsInteger(10),
+    "power_250mw" / ct.BitsInteger(10),
+)
+
+# Revision 3.1 Version 1.8 Table 6-19 Programmable Power Supply APDO - Sink
+srp_pps_sink = ct.Struct(
+    ct.Padding(3),
+    "max_voltage_100mv" / ct.BitsInteger(8),
+    ct.Padding(1),
+    "min_voltage_100mv" / ct.BitsInteger(8),
+    ct.Padding(1),
+    "max_current_50ma" / ct.BitsInteger(7),
+)
+
+# Revision 3.1 Version 1.8 Table 6-20 EPR Adjustable Voltage Supply APDO - Sink
+erp_pps_sink = ct.Struct(
+    ct.Padding(2),
+    "max_voltage_100mv" / ct.BitsInteger(9),
+    ct.Padding(1),
+    "min_voltage_100mv" / ct.BitsInteger(8),
+    "pdp_1w" / ct.BitsInteger(8),
+)
+
+apdo_sink = ct.Struct(
+    "apdo_typ" / ct.BitsInteger(2),
+    "spdo_information"
+    / ct.Switch(
+        ct.this.pdo_typ,
+        {
+            0b00: srp_pps_sink,
+            0b01: erp_pps_sink,
+        },
+    ),
+)
+
+pdo_sink = util.ByteSwappedBitStruct(
+    "pdo_typ" / Pdo,
+    "pdo_information"
+    / ct.Switch(
+        ct.this.pdo_typ,
+        {
+            PdoEnum.FIXED_SUPPLY.name: fix_supply_pdo_sink,
+            PdoEnum.BATTERY.name: battery_supply_pdo_sink,
+            PdoEnum.VARIABLE_SUPPLY.name: variable_supply_pdo_sink,
+            PdoEnum.APDO.name: apdo_sink,
+        },
+    ),
+    __size=4,
+)
+
 # Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
 bits = util.ByteSwappedBitStruct("mode" / BitsMode, ct.Padding(28), __size=4)
 
