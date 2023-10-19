@@ -182,7 +182,7 @@ pd_body = ct.Array(
         {
             DataMesgEnum.SRC_CAP.name: data_mesg.pdo,
             # DataMesgEnum.REQUEST.name: data_mesg.rdo,
-            # DataMesgEnum.BIST.name: data_mesg.bits,
+            DataMesgEnum.BIST.name: data_mesg.bits,
             # DataMesgEnum.SNK_CAP.name: data_mesg.pdo_sink,
             # DataMesgEnum.BATTERY_STATUS.name: data_mesg.bsdo,
             # DataMesgEnum.ALERT.name: data_mesg.ado,
