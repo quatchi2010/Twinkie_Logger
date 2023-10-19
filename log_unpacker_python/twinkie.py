@@ -165,7 +165,11 @@ pd_header = util.ByteSwappedBitStruct(
         ct.BitsInteger(1),
     ),
     "spec" / ReVer,
-    "data_role" / ct.If(ct.this._._.packet_bin.SOP == SoPEnum.SOP.name, Drole),
+    ct.IfThenElse(
+        ct.this._._.packet_bin.SOP == SoPEnum.SOP.name,
+        "data_role" / Drole,
+        ct.Padding(1),
+    ),
     "msg_typ"
     / ct.IfThenElse(
         ct.this.num_data_obj,
