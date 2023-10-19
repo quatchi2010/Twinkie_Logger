@@ -1,6 +1,7 @@
 """PD Data Message."""
 
 import enum
+import pathlib
 
 import construct as ct
 import util
@@ -274,6 +275,79 @@ pdo_sink = util.ByteSwappedBitStruct(
     ),
     __size=4,
 )
+
+## RDO
+rdo = util.ByteSwappedBitStruct(
+    "pos" / ct.Peek(ct.BitsInteger(4)), "data" / ct.Bytes(32), __size=4
+)
+
+# Revision 3.1 Version 1.8 Table 6-21 Fixed and Variable Request Data Object
+# Revision 3.1 Version 1.8 Table 6-22 Fixed and Variable Request Data Object with GiveBack Support
+fix_variable_rdo = ct.Struct(
+    "pos" / ct.BitsInteger(4),
+    "give_back_flag" / ct.BitsInteger(1),
+    "capability_mismatch" / ct.BitsInteger(1),
+    "usb_communications_capable" / ct.BitsInteger(1),
+    "no_usb_suspend" / ct.BitsInteger(1),
+    "unchunked_extended_messages_supported" / ct.BitsInteger(1),
+    "erp_mode_capable" / ct.BitsInteger(1),
+    ct.Padding(2),
+    "current_10ma" / ct.BitsInteger(10),
+    ct.IfThenElse(
+        ct.this.give_back_flag,
+        "min_current_10ma" / ct.BitsInteger(10),
+        "max_current_10ma" / ct.BitsInteger(10),
+    ),
+).compile(pathlib.Path(__file__).parent / "__pycache__" / "fix_variable_rdo.py")
+
+# Revision 3.1 Version 1.8 Table 6-23 Battery Request Data Object
+# Revision 3.1 Version 1.8 Table 6-24 Battery Request Data Object with GiveBack Support
+battery_rdo = ct.Struct(
+    "pos" / ct.BitsInteger(4),
+    "give_back_flag" / ct.BitsInteger(1),
+    "Capability_Mismatch" / ct.BitsInteger(1),
+    "usb_communications_capable" / ct.BitsInteger(1),
+    "no_usb_suspend" / ct.BitsInteger(1),
+    "unchunked_extended_messages_supported" / ct.BitsInteger(1),
+    "erp_mode_capable" / ct.BitsInteger(1),
+    ct.Padding(2),
+    "power_250mw" / ct.BitsInteger(10),
+    ct.IfThenElse(
+        ct.this.give_back_flag,
+        "min_power_250mw" / ct.BitsInteger(10),
+        "max_power_250mw" / ct.BitsInteger(10),
+    ),
+).compile(pathlib.Path(__file__).parent / "__pycache__" / "battery_rdo.py")
+
+# Revision 3.1 Version 1.8 Table 6-25 PPS Request Data Object
+pps_rdo = ct.Struct(
+    "pos" / ct.BitsInteger(4),
+    ct.Padding(1),
+    "Capability_Mismatch" / ct.BitsInteger(1),
+    "usb_communications_capable" / ct.BitsInteger(1),
+    "no_usb_suspend" / ct.BitsInteger(1),
+    "unchunked_extended_messages_supported" / ct.BitsInteger(1),
+    "erp_mode_capable" / ct.BitsInteger(1),
+    ct.Padding(1),
+    "voltage_20mv" / ct.BitsInteger(12),
+    ct.Padding(2),
+    "current_50ma" / ct.BitsInteger(7),
+).compile(pathlib.Path(__file__).parent / "__pycache__" / "pps_rdo.py")
+
+# Revision 3.1 Version 1.8 Table 6-26 AVS Request Data Object
+avs_rdo = ct.Struct(
+    "pos" / ct.BitsInteger(4),
+    ct.Padding(1),
+    "Capability_Mismatch" / ct.BitsInteger(1),
+    "usb_communications_capable" / ct.BitsInteger(1),
+    "no_usb_suspend" / ct.BitsInteger(1),
+    "unchunked_extended_messages_supported" / ct.BitsInteger(1),
+    "erp_mode_capable" / ct.BitsInteger(1),
+    ct.Padding(1),
+    "voltage_25mv" / ct.BitsInteger(12),
+    ct.Padding(2),
+    "current_50ma" / ct.BitsInteger(7),
+).compile(pathlib.Path(__file__).parent / "__pycache__" / "avs_rdo.py")
 
 # Revision 3.1 Version 1.8 Table 6-27 BIST Data Object
 bits = util.ByteSwappedBitStruct("mode" / BitsMode, ct.Padding(28), __size=4)
