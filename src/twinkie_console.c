@@ -43,7 +43,7 @@ void *read_d(void *p)
 	int ret = 0;
 	while (ret == 0) {
 		if (stream_read(buf)) {
-			ret = log_packet((struct SnooperPacket const *)buf);
+//			ret = log_packet((struct SnooperPacket const *)buf);
 			log_file(buf);
 		}
 	}
