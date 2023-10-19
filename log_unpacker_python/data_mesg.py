@@ -155,3 +155,11 @@ ado = util.ByteSwappedBitStruct(
     "ext_event" / ct.BitsInteger(4),
     __size=4,
 )
+
+# Revision 3.1 Version 1.8 Table 6-48 Country Code Data Object
+ccdo = util.ByteSwappedBitStruct(
+    "first" / ct.BitsInteger(8),
+    "second" / ct.BitsInteger(8),
+    ct.Padding(16),
+    __size=4,
+)
