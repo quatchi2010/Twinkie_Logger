@@ -54,6 +54,7 @@ class VdmCommandEnum(enum.IntEnum):
   DISCOVER_MODES = 3
   ENTER_MODE = 4
   EXIT_MODE = 5
+  ATTENTION = 6
   SVID_16 = 16
   SVID_17 = 17
   SVID_18 = 18

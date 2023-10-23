@@ -49,6 +49,8 @@ class CtrlMesgEnum(enum.IntEnum):
   GET_PPS_STATUS = 20
   GET_COUNTRY_CODES = 21
   GET_SNK_CAP_EXT = 22
+  GET_SRC_INFO = 23
+  GET_REVISION = 24
 
 
 @enum.unique
@@ -124,16 +126,22 @@ class ExtMesgEnum(enum.IntEnum):
   EXT_SRC_CAP = 1
   EXT_STATUS = 2
   EXT_GET_BATTERY_CAP = 3
-  EXT_BATTERY_CAP = 4
-  EXT_GET_MANUF_INFO = 5
-  EXT_MANUF_INFO = 6
-  EXT_SECURITY_REQUEST = 7
-  EXT_SECURITY_RESPONSE = 8
-  EXT_FW_UPDATE_REQUEST = 9
-  EXT_FW_UPDATE_RESPONSE = 10
-  EXT_PPS_STATUS = 11
-  EXT_COUNTRY_INFO = 12
-  EXT_COUNTRY_CODES = 13
+  EXT_GET_BATTERY_STATUS = 4
+  EXT_BATTERY_CAP = 5
+  EXT_GET_MANUF_INFO = 6
+  EXT_MANUF_INFO = 7
+  EXT_SECURITY_REQUEST = 8
+  EXT_SECURITY_RESPONSE = 9
+  EXT_FW_UPDATE_REQUEST = 10
+  EXT_FW_UPDATE_RESPONSE = 11
+  EXT_PPS_STATUS = 12
+  EXT_COUNTRY_INFO = 13
+  EXT_COUNTRY_CODES = 14
+  EXT_SNK_CAP = 15
+  EXT_CTR = 16
+  EXT_ERP_SRC_CAP = 17
+  EXT_ERP_SNK_CAP = 18
+  EXT_VDM = 30
 
 
 SoP = ct.Enum(ct.BitsInteger(4), SoPEnum)
@@ -173,9 +181,9 @@ pd_header = util.ByteSwappedBitStruct(
     ),
     "msg_typ"
     / ct.IfThenElse(
-        ct.this.num_data_obj,
-        ct.IfThenElse(ct.this.extended, ExtMesg, DataMesg),
-        CtrlMesg,
+        ct.this.extended,
+        ExtMesg,
+        ct.IfThenElse(ct.this.num_data_obj, DataMesg, CtrlMesg),
     ),
     __size=2,
 )
