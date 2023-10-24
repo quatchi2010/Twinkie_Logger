@@ -168,7 +168,7 @@ ExtMesg = ct.Enum(ct.BitsInteger(5), ExtMesgEnum)
 
 # Revision 3.1 Version 1.8 Table 6-1 Message Header
 pd_header = util.ByteSwappedBitStruct(
-    "extended" / ct.BitsInteger(1),
+    "extended" / ct.Flag,
     "num_data_obj" / ct.BitsInteger(3),
     "msg_id" / ct.BitsInteger(3),
     "power_role"
@@ -199,9 +199,9 @@ pd_header = util.ByteSwappedBitStruct(
 
 # Revision 3.1 Version 1.8 Table 6-3 Extended Message Header
 pd_ext_header = util.ByteSwappedBitStruct(
-    "chunked" / ct.BitsInteger(1),
+    "chunked" / ct.Flag,
     "chunk_number" / ct.BitsInteger(4),
-    "request_chunk" / ct.BitsInteger(1),
+    "request_chunk" / ct.Flag,
     ct.Padding(1),
     "data_size" / ct.BitsInteger(9),
     __size=2,
@@ -236,8 +236,8 @@ pd = ct.Struct(
 twinkie_typ = util.ByteSwappedBitStruct(
     "SOP" / SoP,
     "Version" / ct.BitsInteger(4),
-    "PD" / ct.BitsInteger(1),
-    "Packet_Lost" / ct.BitsInteger(1),
+    "PD" / ct.Flag,
+    "Packet_Lost" / ct.Flag,
     "CC" / Cc,
     ct.Padding(4),
     __size=2,
