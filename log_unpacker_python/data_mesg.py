@@ -7,6 +7,7 @@ import construct as ct
 import util
 
 
+@enum.unique
 class PdoEnum(enum.IntEnum):
   """The Enum for Power Data Object Types.
 
@@ -19,6 +20,18 @@ class PdoEnum(enum.IntEnum):
   APDO = 3
 
 
+@enum.unique
+class ApdoEnum(enum.IntEnum):
+  """The Enum for Augmented Power Data Object Types.
+
+  Revision 3.1 Version 1.8 Table 6-8 Augmented Power Data Object
+  """
+
+  SPR_PPS = 0
+  EPR_AVS = 1
+
+
+@enum.unique
 class BitsModeEnum(enum.IntEnum):
   """The Enum for BIST Mode.
 
@@ -31,6 +44,7 @@ class BitsModeEnum(enum.IntEnum):
   SHARED_TEST_MODE_EXIT = 10
 
 
+@enum.unique
 class VdmCommandTypeEnum(enum.IntEnum):
   """The Enum for VDM Command Type.
 
@@ -43,6 +57,7 @@ class VdmCommandTypeEnum(enum.IntEnum):
   BUSY = 3
 
 
+@enum.unique
 class VdmCommandEnum(enum.IntEnum):
   """The Enum for VDM Command.
 
@@ -73,6 +88,28 @@ class VdmCommandEnum(enum.IntEnum):
   SVID_31 = 31
 
 
+@enum.unique
+class VdmVersionMajorEnum(enum.IntEnum):
+  """The Enum for VDM Version Major.
+
+  Revision 3.1 Version 1.8 Table 6-29 Structured VDM Header
+  """
+
+  V2_X = 1
+
+
+@enum.unique
+class VdmVersionMinorEnum(enum.IntEnum):
+  """The Enum for VDM Version Major.
+
+  Revision 3.1 Version 1.8 Table 6-29 Structured VDM Header
+  """
+
+  V2_0 = 0
+  V2_1 = 1
+
+
+@enum.unique
 class BattCharStatEnum(enum.IntEnum):
   """The Enum for Battery Status.
 
@@ -84,6 +121,7 @@ class BattCharStatEnum(enum.IntEnum):
   IDLE = 3
 
 
+@enum.unique
 class UsbEnum(enum.IntEnum):
   """The Enum for USB Mode.
 
@@ -95,6 +133,7 @@ class UsbEnum(enum.IntEnum):
   USB_4_0 = 3
 
 
+@enum.unique
 class UsbCableEnum(enum.IntEnum):
   """The Enum for USB Cable Types.
 
@@ -106,6 +145,7 @@ class UsbCableEnum(enum.IntEnum):
   OPTICALLY_ISOLATED = 3
 
 
+@enum.unique
 class UsbCableCurrentEnum(enum.IntEnum):
   """The Enum for USB Cable Current Types.
 
@@ -118,9 +158,12 @@ class UsbCableCurrentEnum(enum.IntEnum):
 
 
 Pdo = ct.Enum(ct.BitsInteger(2), PdoEnum)
+Apdo = ct.Enum(ct.BitsInteger(2), ApdoEnum)
 BitsMode = ct.Enum(ct.BitsInteger(4), BitsModeEnum)
 VdmCommandType = ct.Enum(ct.BitsInteger(2), VdmCommandTypeEnum)
 VdmCommand = ct.Enum(ct.BitsInteger(5), VdmCommandEnum)
+VdmVersionMajor = ct.Enum(ct.BitsInteger(2), VdmVersionMajorEnum)
+VdmVersionMinor = ct.Enum(ct.BitsInteger(2), VdmVersionMinorEnum)
 BattCharStat = ct.Enum(ct.BitsInteger(2), BattCharStatEnum)
 Usb = ct.Enum(ct.BitsInteger(3), UsbEnum)
 UsbCable = ct.Enum(ct.BitsInteger(2), UsbCableEnum)
@@ -177,13 +220,13 @@ erp_pps_src = ct.Struct(
 
 # Revision 3.1 Version 1.8 Table 6-8 Augmented Power Data Object
 apdo_src = ct.Struct(
-    "apdo_typ" / ct.BitsInteger(2),
+    "apdo_typ" / Apdo,
     "spdo_information"
     / ct.Switch(
         ct.this.apdo_typ,
         {
-            0b00: srp_pps_src,
-            0b01: erp_pps_src,
+            ApdoEnum.SPR_PPS.name: srp_pps_src,
+            ApdoEnum.EPR_AVS.name: erp_pps_src,
         },
     ),
 )
@@ -251,13 +294,13 @@ erp_pps_sink = ct.Struct(
 )
 
 apdo_sink = ct.Struct(
-    "apdo_typ" / ct.BitsInteger(2),
+    "apdo_typ" / Apdo,
     "spdo_information"
     / ct.Switch(
-        ct.this.pdo_typ,
+        ct.this.apdo_typ,
         {
-            0b00: srp_pps_sink,
-            0b01: erp_pps_sink,
+            ApdoEnum.SPR_PPS.name: srp_pps_sink,
+            ApdoEnum.EPR_AVS.name: erp_pps_sink,
         },
     ),
 )
@@ -354,8 +397,8 @@ vdm = util.ByteSwappedBitStruct(
     / ct.IfThenElse(
         ct.this.vdm_typ,
         ct.Struct(
-            "major_version" / ct.BitsInteger(2),
-            "minor_version" / ct.BitsInteger(2),
+            "major_version" / VdmVersionMajor,
+            "minor_version" / VdmVersionMinor,
             "obj_position" / ct.BitsInteger(3),
             "command_typ" / VdmCommandType,
             ct.Padding(1),

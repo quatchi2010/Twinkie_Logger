@@ -21,6 +21,14 @@ class SoPEnum(enum.IntEnum):
 
 
 @enum.unique
+class CCEnum(enum.IntEnum):
+  CC_OPEN = 0
+  CC1 = 1
+  CC2 = 2
+  CC_OPEN_1 = 3
+
+
+@enum.unique
 class CtrlMesgEnum(enum.IntEnum):
   """The Enum for Control Message Types.
 
@@ -145,6 +153,7 @@ class ExtMesgEnum(enum.IntEnum):
 
 
 SoP = ct.Enum(ct.BitsInteger(4), SoPEnum)
+Cc = ct.Enum(ct.BitsInteger(2), CCEnum)
 
 CtrlMesg = ct.Enum(ct.BitsInteger(5), CtrlMesgEnum)
 DataMesg = ct.Enum(ct.BitsInteger(5), DataMesgEnum)
@@ -229,7 +238,7 @@ twinkie_typ = util.ByteSwappedBitStruct(
     "Version" / ct.BitsInteger(4),
     "PD" / ct.BitsInteger(1),
     "Packet_Lost" / ct.BitsInteger(1),
-    "CC" / ct.BitsInteger(2),
+    "CC" / Cc,
     ct.Padding(4),
     __size=2,
 )
