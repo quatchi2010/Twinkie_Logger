@@ -294,11 +294,7 @@ fix_variable_rdo = ct.Struct(
     "erp_mode_capable" / ct.BitsInteger(1),
     ct.Padding(2),
     "current_10ma" / ct.BitsInteger(10),
-    ct.IfThenElse(
-        ct.this.give_back_flag,
-        "min_current_10ma" / ct.BitsInteger(10),
-        "max_current_10ma" / ct.BitsInteger(10),
-    ),
+    "current_limit_10ma" / ct.BitsInteger(10),
 ).compile(pathlib.Path(__file__).parent / "__pycache__" / "fix_variable_rdo.py")
 
 # Revision 3.1 Version 1.8 Table 6-23 Battery Request Data Object
@@ -313,11 +309,7 @@ battery_rdo = ct.Struct(
     "erp_mode_capable" / ct.BitsInteger(1),
     ct.Padding(2),
     "power_250mw" / ct.BitsInteger(10),
-    ct.IfThenElse(
-        ct.this.give_back_flag,
-        "min_power_250mw" / ct.BitsInteger(10),
-        "max_power_250mw" / ct.BitsInteger(10),
-    ),
+    "power_limit_250mw" / ct.BitsInteger(10),
 ).compile(pathlib.Path(__file__).parent / "__pycache__" / "battery_rdo.py")
 
 # Revision 3.1 Version 1.8 Table 6-25 PPS Request Data Object
