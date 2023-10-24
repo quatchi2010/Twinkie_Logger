@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/twinkie_console.dir/src/crc32.c.o CMakeFiles/twinkie_console.dir/src/log.c.o CMakeFiles/twinkie_console.dir/src/discover.c.o CMakeFiles/twinkie_console.dir/src/device.c.o CMakeFiles/twinkie_console.dir/src/snooper_stream.c.o CMakeFiles/twinkie_console.dir/src/twinkie_console.c.o -o twinkie_console  -lpthread 
