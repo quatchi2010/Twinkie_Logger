@@ -72,7 +72,6 @@ void *control_d(void *p) {
   */
 
   sleep(2);  // wait 2 second to allow the stream buffer to clear
-  ret = write_twinkie_shell(t, start, 6);
   bool file_is_open = false;
   do {
     file_is_open = !file_is_open;
@@ -84,7 +83,9 @@ void *control_d(void *p) {
               tm->tm_year + 1900, tm->tm_mon, tm->tm_mday, tm->tm_hour,
               tm->tm_min, tm->tm_sec);
       file_open(file_name);
+      ret = write_twinkie_shell(t, start, 6);
     } else {
+      ret = write_twinkie_shell(t, stop, 5);
       file_close();
     }
   } while (
