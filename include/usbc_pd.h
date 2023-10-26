@@ -21,8 +21,8 @@
  * @{
  */
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,14 +33,14 @@ extern "C" {
  *	  See Table 6-75 Value Parameters
  *	  Parameter Name: MaxExtendedMsgLegacyLen
  */
-#define PD_MAX_EXTENDED_MSG_LEGACY_LEN   26
+#define PD_MAX_EXTENDED_MSG_LEGACY_LEN 26
 
 /**
  * @brief Maximum length of an Extended Message in bytes.
  *	  See Table 6-75 Value Parameters
  *	  Parameter Name: MaxExtendedMsgLen
  */
-#define PD_MAX_EXTENDED_MSG_LEN    260
+#define PD_MAX_EXTENDED_MSG_LEN 260
 
 /**
  * @brief Maximum length of a Chunked Message in bytes.
@@ -52,7 +52,7 @@ extern "C" {
  *	  See Table 6-75 Value Parameters
  *	  Parameter Name: MaxExtendedMsgChunkLen
  */
-#define PD_MAX_EXTENDED_MSG_CHUNK_LEN    26
+#define PD_MAX_EXTENDED_MSG_CHUNK_LEN 26
 
 /**
  * @brief Minimum time a sink shall wait for a Source_Capabilities message
@@ -89,14 +89,14 @@ extern "C" {
  *	  See Table 7-24 Common Source/Sink Electrical Parameters
  *	  Parameter Name: tSafe0V
  */
-#define PD_T_SAFE_0V_MAX_MS  650
+#define PD_T_SAFE_0V_MAX_MS 650
 
 /**
  * @brief Time to reach PD_V_SAFE_5V_MV max in milliseconds.
  *	  See Table 7-24 Common Source/Sink Electrical Parameters
  *	  Parameter Name: tSafe5V
  */
-#define PD_T_SAFE_5V_MAX_MS  275
+#define PD_T_SAFE_5V_MAX_MS 275
 
 /**
  * @brief Time to wait for TCPC to complete transmit
@@ -170,29 +170,26 @@ extern "C" {
 #define PD_T_EPR_PS_TRANSITION_MAX_MS 1020
 
 /**
- * @brief Minimum time to wait before sending another request after receiving a Wait message
- *        See Table 6-68 Time Values
+ * @brief Minimum time to wait before sending another request after receiving a
+ * Wait message See Table 6-68 Time Values
  */
 #define PD_T_SINK_REQUEST_MIN_MS 100
 
 /**
- * @brief Minimum time to wait before sending a Not_Supported message after receiving a
- *	  Chunked message
- *	  See Table 6-68 Time Values
+ * @brief Minimum time to wait before sending a Not_Supported message after
+ *receiving a Chunked message See Table 6-68 Time Values
  */
 #define PD_T_CHUNKING_NOT_SUPPORTED_MIN_MS 40
 
 /**
- * @brief Nominal time to wait before sending a Not_Supported message after receiving a
- *	  Chunked message
- *	  See Table 6-68 Time Values
+ * @brief Nominal time to wait before sending a Not_Supported message after
+ *receiving a Chunked message See Table 6-68 Time Values
  */
 #define PD_T_CHUNKING_NOT_SUPPORTED_NOM_MS 45
 
 /**
- * @brief Maximum time to wait before sending a Not_Supported message after receiving a
- *	  Chunked message
- *	  See Table 6-68 Time Values
+ * @brief Maximum time to wait before sending a Not_Supported message after
+ *receiving a Chunked message See Table 6-68 Time Values
  */
 #define PD_T_CHUNKING_NOT_SUPPORTED_MAX_MS 50
 
@@ -228,23 +225,23 @@ extern "C" {
  *	  See Table 6-1 Message Header
  */
 union pd_header {
-	struct {
-		/** Type of message */
-		uint16_t message_type : 5;
-		/** Port Data role */
-		uint16_t port_data_role : 1;
-		/** Specification Revision */
-		uint16_t specification_revision : 2;
-		/** Port Power Role */
-		uint16_t port_power_role : 1;
-		/** Message ID */
-		uint16_t message_id : 3;
-		/** Number of Data Objects */
-		uint16_t number_of_data_objects : 3;
-		/** Extended Message */
-		uint16_t extended : 1;
-	};
-	uint16_t raw_value;
+  struct {
+    /** Type of message */
+    uint16_t message_type : 5;
+    /** Port Data role */
+    uint16_t port_data_role : 1;
+    /** Specification Revision */
+    uint16_t specification_revision : 2;
+    /** Port Power Role */
+    uint16_t port_power_role : 1;
+    /** Message ID */
+    uint16_t message_id : 3;
+    /** Number of Data Objects */
+    uint16_t number_of_data_objects : 3;
+    /** Extended Message */
+    uint16_t extended : 1;
+  };
+  uint16_t raw_value;
 };
 
 /**
@@ -259,55 +256,54 @@ union pd_header {
  *	  See Table 6-3 Extended Message Header
  */
 union pd_ext_header {
-	struct {
-		/** Number of total bytes in data block */
-		uint16_t data_size : 9;
-		/** Reserved */
-		uint16_t reserved0 : 1;
-		/** 1 for a chunked message, else 0 */
-		uint16_t request_chunk : 1;
-		/** Chunk number when chkd = 1, else 0 */
-		uint16_t chunk_number : 4;
-		/** 1 for chunked messages */
-		uint16_t chunked : 1;
-	};
-	/** Raw PD Ext Header value */
-	uint16_t raw_value;
+  struct {
+    /** Number of total bytes in data block */
+    uint16_t data_size : 9;
+    /** Reserved */
+    uint16_t reserved0 : 1;
+    /** 1 for a chunked message, else 0 */
+    uint16_t request_chunk : 1;
+    /** Chunk number when chkd = 1, else 0 */
+    uint16_t chunk_number : 4;
+    /** 1 for chunked messages */
+    uint16_t chunked : 1;
+  };
+  /** Raw PD Ext Header value */
+  uint16_t raw_value;
 };
 
 union unstructured_vdm_header {
-	struct {
-		uint32_t vendor_use: 15;
-		uint32_t type : 1;
-		uint32_t vid : 16;
-	};
-	uint32_t raw_value;
+  struct {
+    uint32_t vendor_use : 15;
+    uint32_t type : 1;
+    uint32_t vid : 16;
+  };
+  uint32_t raw_value;
 };
 
 union structured_vdm_header {
-	struct {
-		uint32_t command : 5;
-		uint32_t reserved1 : 1;
-		uint32_t command_type : 2;
-		uint32_t obj_position : 3;
-		uint32_t reserved2 : 2;
-		uint32_t version : 2;
-		uint32_t type : 1;
-		uint32_t svid : 16;
-	};
-	uint32_t raw_value;
+  struct {
+    uint32_t command : 5;
+    uint32_t reserved1 : 1;
+    uint32_t command_type : 2;
+    uint32_t obj_position : 3;
+    uint32_t reserved2 : 2;
+    uint32_t version : 2;
+    uint32_t type : 1;
+    uint32_t svid : 16;
+  };
+  uint32_t raw_value;
 };
 
 enum vdm_command {
-	/** 0 Reserved */
-	DISCOVER_IDENTITY	= 1,
-	DISCOVER_SVIDS		= 2,
-	DISCOVER_MODES		= 3,
-	ENTER_MODE		= 4,
-	EXIT_MODE		= 5,
-	ATTENTION		= 6
+  /** 0 Reserved */
+  DISCOVER_IDENTITY = 1,
+  DISCOVER_SVIDS = 2,
+  DISCOVER_MODES = 3,
+  ENTER_MODE = 4,
+  EXIT_MODE = 5,
+  ATTENTION = 6
 };
-
 
 /**
  * PDO - Power Data Object
@@ -324,14 +320,14 @@ enum vdm_command {
  *	  Table 6-7 Power Data Object
  */
 enum pdo_src_type {
-	/** Fixed supply (Vmin = Vmax) */
-	PDO_FIXED       = 0,
-	/** Battery */
-	PDO_BATTERY     = 1,
-	/** Variable Supply (non-Battery) */
-	PDO_VARIABLE    = 2,
-	/** Augmented Power Data Object (APDO) */
-	PDO_AUGMENTED   = 3
+  /** Fixed supply (Vmin = Vmax) */
+  PDO_FIXED = 0,
+  /** Battery */
+  PDO_BATTERY = 1,
+  /** Variable Supply (non-Battery) */
+  PDO_VARIABLE = 2,
+  /** Augmented Power Data Object (APDO) */
+  PDO_AUGMENTED = 3
 };
 
 /**
@@ -369,46 +365,46 @@ enum pdo_src_type {
  *	  See Table 6-9 Fixed Supply PDO - Source
  */
 union pd_fixed_supply_pdo_source {
-	struct {
-		/** Maximum Current in 10mA units */
-		uint32_t max_current : 10;
-		/** Voltage in 50mV units */
-		uint32_t voltage : 10;
-		/** Peak Current */
-		uint32_t peak_current : 2;
-		/** Reserved – Shall be set to zero. */
-		uint32_t reserved0 : 2;
-		/** Unchunked Extended Messages Supported */
-		uint32_t unchunked_ext_msg_supported : 1;
-		/** Dual-Role Data */
-		uint32_t dual_role_data : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comms_capable : 1;
-		/** Unconstrained Power */
-		uint32_t unconstrained_power : 1;
-		/** USB Suspend Supported */
-		uint32_t usb_suspend_supported : 1;
-		/** Dual-Role Power */
-		uint32_t dual_role_power : 1;
-		/** Fixed supply. SET TO PDO_FIXED  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Maximum Current in 10mA units */
+    uint32_t max_current : 10;
+    /** Voltage in 50mV units */
+    uint32_t voltage : 10;
+    /** Peak Current */
+    uint32_t peak_current : 2;
+    /** Reserved – Shall be set to zero. */
+    uint32_t reserved0 : 2;
+    /** Unchunked Extended Messages Supported */
+    uint32_t unchunked_ext_msg_supported : 1;
+    /** Dual-Role Data */
+    uint32_t dual_role_data : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comms_capable : 1;
+    /** Unconstrained Power */
+    uint32_t unconstrained_power : 1;
+    /** USB Suspend Supported */
+    uint32_t usb_suspend_supported : 1;
+    /** Dual-Role Power */
+    uint32_t dual_role_power : 1;
+    /** Fixed supply. SET TO PDO_FIXED  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
  * @brief Fast Role Swap Required for USB Type-C current
  */
 enum pd_frs_type {
-	/** Fast Swap not supported */
-	FRS_NOT_SUPPORTED,
-	/** Default USB Power */
-	FRS_DEFAULT_USB_POWER,
-	/** 1.5A @ 5V */
-	FRS_1P5A_5V,
-	/** 3.0A @ 5V */
-	FRS_3P0A_5V
+  /** Fast Swap not supported */
+  FRS_NOT_SUPPORTED,
+  /** Default USB Power */
+  FRS_DEFAULT_USB_POWER,
+  /** 1.5A @ 5V */
+  FRS_1P5A_5V,
+  /** 3.0A @ 5V */
+  FRS_3P0A_5V
 };
 
 /**
@@ -416,30 +412,30 @@ enum pd_frs_type {
  *	  See Table 6-14 Fixed Supply PDO - Sink
  */
 union pd_fixed_supply_pdo_sink {
-	struct {
-		/** Operational Current in 10mA units */
-		uint32_t operational_current : 10;
-		/** Voltage in 50mV units */
-		uint32_t voltage : 10;
-		/** Reserved – Shall be set to zero. */
-		uint32_t reserved0 : 3;
-		/** Fast Role Swap required USB Type-C Current */
-		enum pd_frs_type frs_required : 2;
-		/** Dual-Role Data */
-		uint32_t dual_role_data : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comms_capable : 1;
-		/** Unconstrained Power */
-		uint32_t unconstrained_power : 1;
-		/** Higher Capability */
-		uint32_t higher_capability : 1;
-		/** Dual-Role Power */
-		uint32_t dual_role_power : 1;
-		/** Fixed supply. SET TO PDO_FIXED  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Operational Current in 10mA units */
+    uint32_t operational_current : 10;
+    /** Voltage in 50mV units */
+    uint32_t voltage : 10;
+    /** Reserved – Shall be set to zero. */
+    uint32_t reserved0 : 3;
+    /** Fast Role Swap required USB Type-C Current */
+    enum pd_frs_type frs_required : 2;
+    /** Dual-Role Data */
+    uint32_t dual_role_data : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comms_capable : 1;
+    /** Unconstrained Power */
+    uint32_t unconstrained_power : 1;
+    /** Higher Capability */
+    uint32_t higher_capability : 1;
+    /** Dual-Role Power */
+    uint32_t dual_role_power : 1;
+    /** Fixed supply. SET TO PDO_FIXED  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -475,18 +471,18 @@ union pd_fixed_supply_pdo_sink {
  *	  See Table 6-11 Variable Supply (non-Battery) PDO - Source
  */
 union pd_variable_supply_pdo_source {
-	struct {
-		/** Maximum Current in 10mA units */
-		uint32_t max_current : 10;
-		/** Minimum Voltage in 50mV units */
-		uint32_t min_voltage : 10;
-		/** Maximum Voltage in 50mV units */
-		uint32_t max_voltage : 10;
-		/** Variable supply. SET TO PDO_VARIABLE  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Maximum Current in 10mA units */
+    uint32_t max_current : 10;
+    /** Minimum Voltage in 50mV units */
+    uint32_t min_voltage : 10;
+    /** Maximum Voltage in 50mV units */
+    uint32_t max_voltage : 10;
+    /** Variable supply. SET TO PDO_VARIABLE  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -494,18 +490,18 @@ union pd_variable_supply_pdo_source {
  *	  See Table 6-15 Variable Supply (non-Battery) PDO - Sink
  */
 union pd_variable_supply_pdo_sink {
-	struct {
-		/** operational Current in 10mA units */
-		uint32_t operational_current : 10;
-		/** Minimum Voltage in 50mV units */
-		uint32_t min_voltage : 10;
-		/** Maximum Voltage in 50mV units */
-		uint32_t max_voltage : 10;
-		/** Variable supply. SET TO PDO_VARIABLE  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** operational Current in 10mA units */
+    uint32_t operational_current : 10;
+    /** Minimum Voltage in 50mV units */
+    uint32_t min_voltage : 10;
+    /** Maximum Voltage in 50mV units */
+    uint32_t max_voltage : 10;
+    /** Variable supply. SET TO PDO_VARIABLE  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -541,18 +537,18 @@ union pd_variable_supply_pdo_sink {
  *	  See Table 6-12 Battery Supply PDO - Source
  */
 union pd_battery_supply_pdo_source {
-	struct {
-		/** Maximum Allowable Power in 250mW units */
-		uint32_t max_power : 10;
-		/** Minimum Voltage in 50mV units */
-		uint32_t min_voltage : 10;
-		/** Maximum Voltage in 50mV units */
-		uint32_t max_voltage : 10;
-		/** Battery supply. SET TO PDO_BATTERY  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Maximum Allowable Power in 250mW units */
+    uint32_t max_power : 10;
+    /** Minimum Voltage in 50mV units */
+    uint32_t min_voltage : 10;
+    /** Maximum Voltage in 50mV units */
+    uint32_t max_voltage : 10;
+    /** Battery supply. SET TO PDO_BATTERY  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -560,18 +556,18 @@ union pd_battery_supply_pdo_source {
  *	  See Table 6-16 Battery Supply PDO - Sink
  */
 union pd_battery_supply_pdo_sink {
-	struct {
-		/** Operational Power in 250mW units */
-		uint32_t operational_power : 10;
-		/** Minimum Voltage in 50mV units */
-		uint32_t min_voltage : 10;
-		/** Maximum Voltage in 50mV units */
-		uint32_t max_voltage : 10;
-		/** Battery supply. SET TO PDO_BATTERY  */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Operational Power in 250mW units */
+    uint32_t operational_power : 10;
+    /** Minimum Voltage in 50mV units */
+    uint32_t min_voltage : 10;
+    /** Maximum Voltage in 50mV units */
+    uint32_t max_voltage : 10;
+    /** Battery supply. SET TO PDO_BATTERY  */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -607,32 +603,32 @@ union pd_battery_supply_pdo_sink {
  *	  See Table 6-13 Programmable Power Supply APDO - Source
  */
 union pd_augmented_supply_pdo_source {
-	struct {
-		/** Maximum Current in 50mA increments */
-		uint32_t max_current : 7;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved0 : 1;
-		/** Minimum Voltage in 100mV increments */
-		uint32_t min_voltage : 8;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved1 : 1;
-		/** Maximum Voltage in 100mV increments */
-		uint32_t max_voltage : 8;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved2 : 2;
-		/** PPS Power Limited */
-		uint32_t pps_power_limited : 1;
-		/**
-		 * 00b – Programmable Power Supply
-		 * 01b…11b - Reserved, Shall Not be used
-		 * Setting as reserved because it defaults to 0 when not set.
-		 */
-		uint32_t reserved3 : 2;
-		/** Augmented Power Data Object (APDO). SET TO PDO_AUGMENTED */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Maximum Current in 50mA increments */
+    uint32_t max_current : 7;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved0 : 1;
+    /** Minimum Voltage in 100mV increments */
+    uint32_t min_voltage : 8;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved1 : 1;
+    /** Maximum Voltage in 100mV increments */
+    uint32_t max_voltage : 8;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved2 : 2;
+    /** PPS Power Limited */
+    uint32_t pps_power_limited : 1;
+    /**
+     * 00b – Programmable Power Supply
+     * 01b…11b - Reserved, Shall Not be used
+     * Setting as reserved because it defaults to 0 when not set.
+     */
+    uint32_t reserved3 : 2;
+    /** Augmented Power Data Object (APDO). SET TO PDO_AUGMENTED */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -640,30 +636,30 @@ union pd_augmented_supply_pdo_source {
  *	  See Table 6-17 Programmable Power Supply APDO - Sink
  */
 union pd_augmented_supply_pdo_sink {
-	struct {
-		/** Maximum Current in 50mA increments */
-		uint32_t max_current : 7;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved0 : 1;
-		/** Minimum Voltage in 100mV increments */
-		uint32_t min_voltage : 8;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved1 : 1;
-		/** Maximum Voltage in 100mV increments */
-		uint32_t max_voltage : 8;
-		/** Reserved – Shall be set to zero */
-		uint32_t reserved2 : 3;
-		/**
-		 * 00b – Programmable Power Supply
-		 * 01b…11b - Reserved, Shall Not be used
-		 * Setting as reserved because it defaults to 0 when not set.
-		 */
-		uint32_t reserved3 : 2;
-		/** Augmented Power Data Object (APDO). SET TO PDO_AUGMENTED */
-		enum pdo_src_type type : 2;
-	};
-	/** Raw PDO value */
-	uint32_t raw_value;
+  struct {
+    /** Maximum Current in 50mA increments */
+    uint32_t max_current : 7;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved0 : 1;
+    /** Minimum Voltage in 100mV increments */
+    uint32_t min_voltage : 8;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved1 : 1;
+    /** Maximum Voltage in 100mV increments */
+    uint32_t max_voltage : 8;
+    /** Reserved – Shall be set to zero */
+    uint32_t reserved2 : 3;
+    /**
+     * 00b – Programmable Power Supply
+     * 01b…11b - Reserved, Shall Not be used
+     * Setting as reserved because it defaults to 0 when not set.
+     */
+    uint32_t reserved3 : 2;
+    /** Augmented Power Data Object (APDO). SET TO PDO_AUGMENTED */
+    enum pdo_src_type type : 2;
+  };
+  /** Raw PDO value */
+  uint32_t raw_value;
 };
 
 /**
@@ -672,141 +668,141 @@ union pd_augmented_supply_pdo_sink {
  *	  See Section 6.4.2 Request Message
  */
 union pd_rdo {
-	/**
-	 * @brief Create a Fixed RDO value
-	 * See Table 6-19 Fixed and Variable Request Data Object
-	 */
-	struct {
-		/**
-		 * Operating Current 10mA units
-		 * NOTE: If Give Back Flag is zero, this field is
-		 *       the Maximum Operating Current.
-		 *       If Give Back Flag is one, this field is
-		 *       the Minimum Operating Current.
-		 */
-		uint32_t min_or_max_operating_current : 10;
-		/** Operating current in 10mA units */
-		uint32_t operating_current : 10;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved0 : 3;
-		/** Unchunked Extended Messages Supported */
-		uint32_t unchunked_ext_msg_supported : 1;
-		/** No USB Suspend */
-		uint32_t no_usb_suspend : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comm_capable : 1;
-		/** Capability Mismatch */
-		uint32_t cap_mismatch : 1;
-		/** Give Back Flag */
-		uint32_t giveback : 1;
-		/** Object Position (000b is Reserved and Shall Not be used) */
-		uint32_t object_pos : 3;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved1 : 1;
-	} fixed;
+  /**
+   * @brief Create a Fixed RDO value
+   * See Table 6-19 Fixed and Variable Request Data Object
+   */
+  struct {
+    /**
+     * Operating Current 10mA units
+     * NOTE: If Give Back Flag is zero, this field is
+     *       the Maximum Operating Current.
+     *       If Give Back Flag is one, this field is
+     *       the Minimum Operating Current.
+     */
+    uint32_t min_or_max_operating_current : 10;
+    /** Operating current in 10mA units */
+    uint32_t operating_current : 10;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved0 : 3;
+    /** Unchunked Extended Messages Supported */
+    uint32_t unchunked_ext_msg_supported : 1;
+    /** No USB Suspend */
+    uint32_t no_usb_suspend : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comm_capable : 1;
+    /** Capability Mismatch */
+    uint32_t cap_mismatch : 1;
+    /** Give Back Flag */
+    uint32_t giveback : 1;
+    /** Object Position (000b is Reserved and Shall Not be used) */
+    uint32_t object_pos : 3;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved1 : 1;
+  } fixed;
 
-	/**
-	 * @brief Create a Variable RDO value
-	 * See Table 6-19 Fixed and Variable Request Data Object
-	 */
-	struct {
-		/**
-		 * Operating Current 10mA units
-		 * NOTE: If Give Back Flag is zero, this field is
-		 *       the Maximum Operating Current.
-		 *       If Give Back Flag is one, this field is
-		 *       the Minimum Operating Current.
-		 */
-		uint32_t min_or_max_operating_current : 10;
-		/** Operating current in 10mA units */
-		uint32_t operating_current : 10;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved0 : 3;
-		/** Unchunked Extended Messages Supported */
-		uint32_t unchunked_ext_msg_supported : 1;
-		/** No USB Suspend */
-		uint32_t no_usb_suspend : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comm_capable : 1;
-		/** Capability Mismatch */
-		uint32_t cap_mismatch : 1;
-		/** Give Back Flag */
-		uint32_t giveback : 1;
-		/** Object Position (000b is Reserved and Shall Not be used) */
-		uint32_t object_pos : 3;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved1 : 1;
-	} variable;
+  /**
+   * @brief Create a Variable RDO value
+   * See Table 6-19 Fixed and Variable Request Data Object
+   */
+  struct {
+    /**
+     * Operating Current 10mA units
+     * NOTE: If Give Back Flag is zero, this field is
+     *       the Maximum Operating Current.
+     *       If Give Back Flag is one, this field is
+     *       the Minimum Operating Current.
+     */
+    uint32_t min_or_max_operating_current : 10;
+    /** Operating current in 10mA units */
+    uint32_t operating_current : 10;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved0 : 3;
+    /** Unchunked Extended Messages Supported */
+    uint32_t unchunked_ext_msg_supported : 1;
+    /** No USB Suspend */
+    uint32_t no_usb_suspend : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comm_capable : 1;
+    /** Capability Mismatch */
+    uint32_t cap_mismatch : 1;
+    /** Give Back Flag */
+    uint32_t giveback : 1;
+    /** Object Position (000b is Reserved and Shall Not be used) */
+    uint32_t object_pos : 3;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved1 : 1;
+  } variable;
 
-	/**
-	 * @brief Create a Battery RDO value
-	 *        See Table 6-20 Battery Request Data Object
-	 */
-	struct {
-		/** Minimum Operating Power in 250mW units */
-		uint32_t min_operating_power : 10;
-		/** Operating power in 250mW units */
-		uint32_t operating_power : 10;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved0 : 3;
-		/** Unchunked Extended Messages Supported */
-		uint32_t unchunked_ext_msg_supported : 1;
-		/** No USB Suspend */
-		uint32_t no_usb_suspend : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comm_capable : 1;
-		/** Capability Mismatch */
-		uint32_t cap_mismatch : 1;
-		/** Give Back Flag */
-		uint32_t giveback : 1;
-		/** Object Position (000b is Reserved and Shall Not be used) */
-		uint32_t object_pos : 3;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved1 : 1;
-	} battery;
+  /**
+   * @brief Create a Battery RDO value
+   *        See Table 6-20 Battery Request Data Object
+   */
+  struct {
+    /** Minimum Operating Power in 250mW units */
+    uint32_t min_operating_power : 10;
+    /** Operating power in 250mW units */
+    uint32_t operating_power : 10;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved0 : 3;
+    /** Unchunked Extended Messages Supported */
+    uint32_t unchunked_ext_msg_supported : 1;
+    /** No USB Suspend */
+    uint32_t no_usb_suspend : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comm_capable : 1;
+    /** Capability Mismatch */
+    uint32_t cap_mismatch : 1;
+    /** Give Back Flag */
+    uint32_t giveback : 1;
+    /** Object Position (000b is Reserved and Shall Not be used) */
+    uint32_t object_pos : 3;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved1 : 1;
+  } battery;
 
-	/**
-	 * @brief Create an Augmented RDO value
-	 *        See Table 6-22 Programmable Request Data Object
-	 */
-	struct {
-		/** Operating Current 50mA units */
-		uint32_t operating_current : 7;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved0 : 2;
-		/** Output Voltage in 20mV units */
-		uint32_t output_voltage : 11;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved1 : 3;
-		/** Unchunked Extended Messages Supported */
-		uint32_t unchunked_ext_msg_supported : 1;
-		/** No USB Suspend */
-		uint32_t no_usb_suspend : 1;
-		/** USB Communications Capable */
-		uint32_t usb_comm_capable : 1;
-		/** Capability Mismatch */
-		uint32_t cap_mismatch : 1;
-		/** Reserved - Shall be set to zero */
-		uint32_t reserved2 : 1;
-		/** Object Position (000b is Reserved and Shall Not be used) */
-		uint32_t object_pos : 3;
-		/** Reserved - Shall be set to zero. */
-		uint32_t reserved3 : 1;
-	} augmented;
-	/** Raw RDO value */
-	uint32_t raw_value;
+  /**
+   * @brief Create an Augmented RDO value
+   *        See Table 6-22 Programmable Request Data Object
+   */
+  struct {
+    /** Operating Current 50mA units */
+    uint32_t operating_current : 7;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved0 : 2;
+    /** Output Voltage in 20mV units */
+    uint32_t output_voltage : 11;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved1 : 3;
+    /** Unchunked Extended Messages Supported */
+    uint32_t unchunked_ext_msg_supported : 1;
+    /** No USB Suspend */
+    uint32_t no_usb_suspend : 1;
+    /** USB Communications Capable */
+    uint32_t usb_comm_capable : 1;
+    /** Capability Mismatch */
+    uint32_t cap_mismatch : 1;
+    /** Reserved - Shall be set to zero */
+    uint32_t reserved2 : 1;
+    /** Object Position (000b is Reserved and Shall Not be used) */
+    uint32_t object_pos : 3;
+    /** Reserved - Shall be set to zero. */
+    uint32_t reserved3 : 1;
+  } augmented;
+  /** Raw RDO value */
+  uint32_t raw_value;
 };
 
 /**
  * @brief Protocol revision
  */
 enum pd_rev_type {
-	/** PD revision 1.0 */
-	PD_REV10        = 0,
-	/** PD revision 2.0 */
-	PD_REV20        = 1,
-	/** PD revision 3.0 */
-	PD_REV30        = 2,
+  /** PD revision 1.0 */
+  PD_REV10 = 0,
+  /** PD revision 2.0 */
+  PD_REV20 = 1,
+  /** PD revision 3.0 */
+  PD_REV30 = 2,
 };
 
 /**
@@ -815,25 +811,25 @@ enum pd_rev_type {
  *	  Revision 2.0, Version 1.2, Table 4-38 TRANSMIT Register Definition
  */
 enum pd_packet_type {
-	/** Port Partner message */
-	PD_PACKET_SOP                   = 0,
-	/** Cable Plug message */
-	PD_PACKET_SOP_PRIME             = 1,
-	/** Cable Plug message far end*/
-	PD_PACKET_PRIME_PRIME           = 2,
-	/** Currently undefined in the PD specification */
-	PD_PACKET_DEBUG_PRIME           = 3,
-	/** Currently undefined in the PD specification */
-	PD_PACKET_DEBUG_PRIME_PRIME     = 4,
-	/** Hard Reset message to the Port Partner */
-	PD_PACKET_TX_HARD_RESET         = 5,
-	/** Cable Reset message to the Cable */
-	PD_PACKET_CABLE_RESET           = 6,
-	/** BIST_MODE_2 message to the Port Partner */
-	PD_PACKET_TX_BIST_MODE_2        = 7,
+  /** Port Partner message */
+  PD_PACKET_SOP = 0,
+  /** Cable Plug message */
+  PD_PACKET_SOP_PRIME = 1,
+  /** Cable Plug message far end*/
+  PD_PACKET_PRIME_PRIME = 2,
+  /** Currently undefined in the PD specification */
+  PD_PACKET_DEBUG_PRIME = 3,
+  /** Currently undefined in the PD specification */
+  PD_PACKET_DEBUG_PRIME_PRIME = 4,
+  /** Hard Reset message to the Port Partner */
+  PD_PACKET_TX_HARD_RESET = 5,
+  /** Cable Reset message to the Cable */
+  PD_PACKET_CABLE_RESET = 6,
+  /** BIST_MODE_2 message to the Port Partner */
+  PD_PACKET_TX_BIST_MODE_2 = 7,
 
-	/** USED ONLY FOR RECEPTION OF UNKNOWN MSG TYPES */
-	PD_PACKET_MSG_INVALID           = 0xf
+  /** USED ONLY FOR RECEPTION OF UNKNOWN MSG TYPES */
+  PD_PACKET_MSG_INVALID = 0xf
 };
 
 /**
@@ -846,57 +842,57 @@ enum pd_packet_type {
  *	  See Table 6-5 Control Message Types
  */
 enum pd_ctrl_msg_type {
-	/** 0 Reserved */
+  /** 0 Reserved */
 
-	/** GoodCRC Message */
-	PD_CTRL_GOOD_CRC        = 1,
-	/** GotoMin Message */
-	PD_CTRL_GOTO_MIN        = 2,
-	/** Accept Message */
-	PD_CTRL_ACCEPT          = 3,
-	/** Reject Message */
-	PD_CTRL_REJECT          = 4,
-	/** Ping Message */
-	PD_CTRL_PING            = 5,
-	/** PS_RDY Message */
-	PD_CTRL_PS_RDY          = 6,
-	/** Get_Source_Cap Message */
-	PD_CTRL_GET_SOURCE_CAP  = 7,
-	/** Get_Sink_Cap Message */
-	PD_CTRL_GET_SINK_CAP    = 8,
-	/** DR_Swap Message */
-	PD_CTRL_DR_SWAP         = 9,
-	/** PR_Swap Message */
-	PD_CTRL_PR_SWAP         = 10,
-	/** VCONN_Swap Message */
-	PD_CTRL_VCONN_SWAP      = 11,
-	/** Wait Message */
-	PD_CTRL_WAIT            = 12,
-	/** Soft Reset Message */
-	PD_CTRL_SOFT_RESET      = 13,
+  /** GoodCRC Message */
+  PD_CTRL_GOOD_CRC = 1,
+  /** GotoMin Message */
+  PD_CTRL_GOTO_MIN = 2,
+  /** Accept Message */
+  PD_CTRL_ACCEPT = 3,
+  /** Reject Message */
+  PD_CTRL_REJECT = 4,
+  /** Ping Message */
+  PD_CTRL_PING = 5,
+  /** PS_RDY Message */
+  PD_CTRL_PS_RDY = 6,
+  /** Get_Source_Cap Message */
+  PD_CTRL_GET_SOURCE_CAP = 7,
+  /** Get_Sink_Cap Message */
+  PD_CTRL_GET_SINK_CAP = 8,
+  /** DR_Swap Message */
+  PD_CTRL_DR_SWAP = 9,
+  /** PR_Swap Message */
+  PD_CTRL_PR_SWAP = 10,
+  /** VCONN_Swap Message */
+  PD_CTRL_VCONN_SWAP = 11,
+  /** Wait Message */
+  PD_CTRL_WAIT = 12,
+  /** Soft Reset Message */
+  PD_CTRL_SOFT_RESET = 13,
 
-	/** Used for REV 3.0 */
+  /** Used for REV 3.0 */
 
-	/** Data_Reset Message */
-	PD_CTRL_DATA_RESET              = 14,
-	/** Data_Reset_Complete Message */
-	PD_CTRL_DATA_RESET_COMPLETE     = 15,
-	/** Not_Supported Message */
-	PD_CTRL_NOT_SUPPORTED           = 16,
-	/** Get_Source_Cap_Extended Message */
-	PD_CTRL_GET_SOURCE_CAP_EXT      = 17,
-	/** Get_Status Message */
-	PD_CTRL_GET_STATUS              = 18,
-	/** FR_Swap Message */
-	PD_CTRL_FR_SWAP                 = 19,
-	/** Get_PPS_Status Message */
-	PD_CTRL_GET_PPS_STATUS          = 20,
-	/** Get_Country_Codes Message */
-	PD_CTRL_GET_COUNTRY_CODES       = 21,
-	/** Get_Sink_Cap_Extended Message */
-	PD_CTRL_GET_SINK_CAP_EXT        = 22
+  /** Data_Reset Message */
+  PD_CTRL_DATA_RESET = 14,
+  /** Data_Reset_Complete Message */
+  PD_CTRL_DATA_RESET_COMPLETE = 15,
+  /** Not_Supported Message */
+  PD_CTRL_NOT_SUPPORTED = 16,
+  /** Get_Source_Cap_Extended Message */
+  PD_CTRL_GET_SOURCE_CAP_EXT = 17,
+  /** Get_Status Message */
+  PD_CTRL_GET_STATUS = 18,
+  /** FR_Swap Message */
+  PD_CTRL_FR_SWAP = 19,
+  /** Get_PPS_Status Message */
+  PD_CTRL_GET_PPS_STATUS = 20,
+  /** Get_Country_Codes Message */
+  PD_CTRL_GET_COUNTRY_CODES = 21,
+  /** Get_Sink_Cap_Extended Message */
+  PD_CTRL_GET_SINK_CAP_EXT = 22
 
-	/** 23-31 Reserved */
+  /** 23-31 Reserved */
 };
 
 /**
@@ -904,29 +900,29 @@ enum pd_ctrl_msg_type {
  *	  See Table 6-6 Data Message Types
  */
 enum pd_data_msg_type {
-	/** 0 Reserved */
+  /** 0 Reserved */
 
-	/** Source_Capabilities Message */
-	PD_DATA_SOURCE_CAP              = 1,
-	/** Request Message */
-	PD_DATA_REQUEST                 = 2,
-	/** BIST Message */
-	PD_DATA_BIST                    = 3,
-	/** Sink Capabilities Message */
-	PD_DATA_SINK_CAP                = 4,
-	/** 5-14 Reserved for REV 2.0 */
-	PD_DATA_BATTERY_STATUS          = 5,
-	/** Alert Message */
-	PD_DATA_ALERT                   = 6,
-	/** Get Country Info Message */
-	PD_DATA_GET_COUNTRY_INFO        = 7,
+  /** Source_Capabilities Message */
+  PD_DATA_SOURCE_CAP = 1,
+  /** Request Message */
+  PD_DATA_REQUEST = 2,
+  /** BIST Message */
+  PD_DATA_BIST = 3,
+  /** Sink Capabilities Message */
+  PD_DATA_SINK_CAP = 4,
+  /** 5-14 Reserved for REV 2.0 */
+  PD_DATA_BATTERY_STATUS = 5,
+  /** Alert Message */
+  PD_DATA_ALERT = 6,
+  /** Get Country Info Message */
+  PD_DATA_GET_COUNTRY_INFO = 7,
 
-	/** 8-14 Reserved for REV 3.0 */
+  /** 8-14 Reserved for REV 3.0 */
 
-	/** Enter USB message */
-	PD_DATA_ENTER_USB       = 8,
-	/** Vendor Defined Message */
-	PD_DATA_VENDOR_DEF      = 15,
+  /** Enter USB message */
+  PD_DATA_ENTER_USB = 8,
+  /** Vendor Defined Message */
+  PD_DATA_VENDOR_DEF = 15,
 };
 
 /**
@@ -934,62 +930,62 @@ enum pd_data_msg_type {
  *	  See Table 6-48 Extended Message Types
  */
 enum pd_ext_msg_type {
-	/** 0 Reserved */
+  /** 0 Reserved */
 
-	/** Source_Capabilities_Extended Message */
-	PD_EXT_SOURCE_CAP               = 1,
-	/** Status Message */
-	PD_EXT_STATUS                   = 2,
-	/** Get_Battery_Cap Message */
-	PD_EXT_GET_BATTERY_CAP          = 3,
-	/** Get_Battery_Status Message */
-	PD_EXT_GET_BATTERY_STATUS       = 4,
-	/** Battery_Capabilities Message */
-	PD_EXT_BATTERY_CAP              = 5,
-	/** Get_Manufacturer_Info Message */
-	PD_EXT_GET_MANUFACTURER_INFO    = 6,
-	/** Manufacturer_Info Message */
-	PD_EXT_MANUFACTURER_INFO        = 7,
-	/** Security_Request Message */
-	PD_EXT_SECURITY_REQUEST         = 8,
-	/** Security_Response Message */
-	PD_EXT_SECURITY_RESPONSE        = 9,
-	/** Firmware_Update_Request Message */
-	PD_EXT_FIRMWARE_UPDATE_REQUEST  = 10,
-	/** Firmware_Update_Response Message */
-	PD_EXT_FIRMWARE_UPDATE_RESPONSE = 11,
-	/** PPS_Status Message */
-	PD_EXT_PPS_STATUS               = 12,
-	/** Country_Codes Message */
-	PD_EXT_COUNTRY_INFO             = 13,
-	/** Country_Info Message */
-	PD_EXT_COUNTRY_CODES            = 14,
+  /** Source_Capabilities_Extended Message */
+  PD_EXT_SOURCE_CAP = 1,
+  /** Status Message */
+  PD_EXT_STATUS = 2,
+  /** Get_Battery_Cap Message */
+  PD_EXT_GET_BATTERY_CAP = 3,
+  /** Get_Battery_Status Message */
+  PD_EXT_GET_BATTERY_STATUS = 4,
+  /** Battery_Capabilities Message */
+  PD_EXT_BATTERY_CAP = 5,
+  /** Get_Manufacturer_Info Message */
+  PD_EXT_GET_MANUFACTURER_INFO = 6,
+  /** Manufacturer_Info Message */
+  PD_EXT_MANUFACTURER_INFO = 7,
+  /** Security_Request Message */
+  PD_EXT_SECURITY_REQUEST = 8,
+  /** Security_Response Message */
+  PD_EXT_SECURITY_RESPONSE = 9,
+  /** Firmware_Update_Request Message */
+  PD_EXT_FIRMWARE_UPDATE_REQUEST = 10,
+  /** Firmware_Update_Response Message */
+  PD_EXT_FIRMWARE_UPDATE_RESPONSE = 11,
+  /** PPS_Status Message */
+  PD_EXT_PPS_STATUS = 12,
+  /** Country_Codes Message */
+  PD_EXT_COUNTRY_INFO = 13,
+  /** Country_Info Message */
+  PD_EXT_COUNTRY_CODES = 14,
 
-	/*8 15-31 Reserved */
+  /*8 15-31 Reserved */
 };
 
 /**
  * @brief Active PD CC pin
  */
 enum usbpd_cc_pin {
-	/** PD is active on CC1 */
-	USBPD_CC_PIN_1  = 0,
-	/** PD is active on CC2 */
-	USBPD_CC_PIN_2  = 1,
+  /** PD is active on CC1 */
+  USBPD_CC_PIN_1 = 0,
+  /** PD is active on CC2 */
+  USBPD_CC_PIN_2 = 1,
 };
 
 /**
  * @brief Power Delivery message
  */
 struct pd_msg {
-	/** Type of this packet */
-	enum pd_packet_type type;
-	/** Header of this message */
-	union pd_header header;
-	/** Length of bytes in data */
-	uint32_t len;
-	/** Message data */
-	uint8_t data[PD_MAX_EXTENDED_MSG_LEN];
+  /** Type of this packet */
+  enum pd_packet_type type;
+  /** Header of this message */
+  union pd_header header;
+  /** Length of bytes in data */
+  uint32_t len;
+  /** Message data */
+  uint8_t data[PD_MAX_EXTENDED_MSG_LEN];
 };
 
 /**
