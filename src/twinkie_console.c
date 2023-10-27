@@ -85,24 +85,26 @@ void *control_d(void *p) {
   */
 
   sleep(2);  // wait 2 second to allow the stream buffer to clear
-  ret = write_twinkie_shell(t, start, 6);
   bool file_is_open = false;
-
-  time(&timer);
-  tm = localtime(&timer);
-  /* alternatively read file name from something */
-  sprintf(file_name, "./%s/%d_%d_%d_%d_%d_%d.bin", dir_name, tm->tm_year + 1900,
-          tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
-  file_open(file_name);
-  printf("\nFile Opened\n");
-
-  pthread_cond_wait(&cond1, &lock);
-  printf("sned stop");
-  ret = write_twinkie_shell(t, stop, 5);
-
-  file_close();
-  printf("File Closed\n");
+  do {
+    file_is_open = !file_is_open;
+    if (file_is_open) {
+      time(&timer);
+      tm = localtime(&timer);
+      /* alternatively read file name from something */
+      sprintf(file_name, "./%s/%d_%d_%d_%d_%d_%d.bin", dir_name,
+              tm->tm_year + 1900, tm->tm_mon, tm->tm_mday, tm->tm_hour,
+              tm->tm_min, tm->tm_sec);
+      file_open(file_name);
+      ret = write_twinkie_shell(t, start, 6);
+    } else {
+      ret = write_twinkie_shell(t, stop, 5);
+      file_close();
+    }
+  } while (
+      getchar());  // The condition for waiting for the next input goes here.
 }
+
 
 int main(int argc, char **argv) {
   struct Twinkie *t;
