@@ -474,7 +474,7 @@ void file_open(char *file_name) {
   file_ptr = fopen(file_name, "wb+");
   file_is_open = true;
 
-  printf("File created: %s", file_name);
+  printf("File created: %s\n", file_name);
   if (file_ptr == NULL) {
     printf("NULL file pointer\n");
   }
@@ -484,5 +484,5 @@ void file_close() {
   file_is_open = false;
   fclose(file_ptr);
 
-  printf("File closed.");
+  printf("File closed.\n");
 }
